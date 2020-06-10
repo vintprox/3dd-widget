@@ -1,9 +1,7 @@
 import i3DXCompassServices from 'DS/i3DXCompassServices/i3DXCompassServices';
 import Service from './Service';
+import NoWidgetError from './errors/NoWidgetError';
 
-/**
- * We consider that `widget` object is already accessible in `init` function implemented by extending class.
- */
 declare global {
   const widget: any;
 }
@@ -44,24 +42,15 @@ export default abstract class Widget {
   static platform: Platform;
 
   /**
-   * Get platform ID and wait for `onLoad` to initialize everything else.
+   * Get platform ID and process instantiation options
    * @param options Options for widget instantiation
    */
   constructor(options: WidgetOptions = {}) {
-    if (!widget) throw new Error(`Application must run as 3DDashboard widget`);
     Widget.platform = { id: widget.getValue('x3dPlatformId') };
-    Widget.listen('onLoad').then(this.init);
     if (options.removeDefaultStyles) {
       document.querySelector('link[href*="iframe.css"]')?.remove();
     }
   }
-
-  /**
-   * Method intended to be implemented by extending class.
-   * It must initialize application when `onLoad` event is being triggered by UWA.
-   * There is guarantee that you will have access to `widget` object at the time of `init` is being called.
-   */
-  abstract init(): void;
 
   /**
    * Get widget's underlying URL.
@@ -83,6 +72,7 @@ export default abstract class Widget {
    * @return Promise that is resolved with an array of event result parameters
    */
   static async listen(name: string) {
+    if (!widget) throw new NoWidgetError();
     return new Promise<any[]>(resolve => widget.addEvent(name, (...args) => resolve(args)));
   }
 

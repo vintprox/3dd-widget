@@ -1,3 +1,7 @@
 import Widget from './classes/Widget';
+import Service from './classes/Service';
 
-export default Widget;
+export {
+  Widget,
+  Service
+};

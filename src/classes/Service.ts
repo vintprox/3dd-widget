@@ -1,5 +1,5 @@
 import HTTP from 'http-method-enum';
-import merge from 'lodash/merge';
+import merge from 'lodash.merge';
 import { authenticatedRequest, RequestData, RequestOptions, OnCompleteCallBack, OnFailureCallBack } from 'DS/WAFData/WAFData';
 
 /**

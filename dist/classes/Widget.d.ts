@@ -1,7 +1,4 @@
 import Service from './Service';
-/**
- * We consider that `widget` object is already accessible in `init` function implemented by extending class.
- */
 declare global {
     const widget: any;
 }
@@ -37,16 +34,10 @@ export default abstract class Widget {
      */
     static platform: Platform;
     /**
-     * Get platform ID and wait for `onLoad` to initialize everything else.
+     * Get platform ID and process instantiation options
      * @param options Options for widget instantiation
      */
     constructor(options?: WidgetOptions);
-    /**
-     * Method intended to be implemented by extending class.
-     * It must initialize application when `onLoad` event is being triggered by UWA.
-     * There is guarantee that you will have access to `widget` object at the time of `init` is being called.
-     */
-    abstract init(): void;
     /**
      * Get widget's underlying URL.
      */

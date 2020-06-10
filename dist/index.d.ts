@@ -1,3 +1,4 @@
 import Widget from './classes/Widget';
-export default Widget;
+import Service from './classes/Service';
+export { Widget, Service };
 //# sourceMappingURL=index.d.ts.map
