@@ -54,6 +54,7 @@ export default abstract class Widget {
     static listen(name: string): Promise<any[]>;
     /**
      * Request platform service URLs and set them in required `Service` classes.
+     * Prepends base URL of top service to each descendant service listed in array.
      * Retrieves display name of the platform as bonus.
      * @param services Array of `Service` classes required for working application
      * @return Promise that is resolved after initial authentication of all services was performed
