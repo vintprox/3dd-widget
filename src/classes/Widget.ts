@@ -87,14 +87,14 @@ export default abstract class Widget {
     return new Promise<void>((resolve, reject) => {
       i3DXCompassServices.getPlatformServices({
         platformId: Widget.platform.id,
-        onComplete: ({ platformId, displayName, ...urls }: PlatformServices) => {
-          Widget.platform.displayName = displayName;
+        onComplete: (response: PlatformServices) => {
+          Widget.platform.displayName = response.displayName;
           const authPromises = [];
           for (let service of services) {
             if (!service.url) {
               authPromises.push(service.authenticate())
             }
-            service.url = urls[service.topServiceName] + service.url
+            service.url = response[service.topServiceName] + service.url
           }
           Promise.all(authPromises).then(resolve.bind(this));
         },
