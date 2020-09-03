@@ -91,10 +91,11 @@ export default abstract class Widget {
           Widget.platform.displayName = response.displayName;
           const authPromises = [];
           for (let service of services) {
-            if (!service.url) {
+            const appendUrl = service.url
+            service.url = response[service.topServiceName] + appendUrl
+            if (!appendUrl) {
               authPromises.push(service.authenticate())
             }
-            service.url = response[service.topServiceName] + service.url
           }
           Promise.all(authPromises).then(resolve.bind(this));
         },
