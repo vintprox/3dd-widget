@@ -78,6 +78,7 @@ export default abstract class Widget {
 
   /**
    * Request platform service URLs and set them in required `Service` classes.
+   * Prepends base URL of top service to each descendant service listed in array.
    * Retrieves display name of the platform as bonus.
    * @param services Array of `Service` classes required for working application
    * @return Promise that is resolved after initial authentication of all services was performed
@@ -90,8 +91,10 @@ export default abstract class Widget {
           Widget.platform.displayName = displayName;
           const authPromises = [];
           for (let service of services) {
-            service.url = urls[service.serviceName];
-            authPromises.push(service.authenticate());
+            if (!service.url) {
+              authPromises.push(service.authenticate())
+            }
+            service.url = urls[service.topServiceName] + service.url
           }
           Promise.all(authPromises).then(resolve.bind(this));
         },
